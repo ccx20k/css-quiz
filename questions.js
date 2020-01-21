@@ -51,40 +51,22 @@ startBtn.addEventListener("click", function(){
     var header = document.getElementById("quiz-header");
     header.classList.remove("d-none");
 
-    questionsControl();
-
-    /* for (var i=0; i<4; i++) {
-        var answer = document.getElementById(i);
-        answer[i].innerText = currentQuestion.choices[i];
-    };
-     
-
-     //for (var i=0; i <questions.length; i++) {
-         //console.log(questions[i]);
-         //var currentQuestion = questions[i];
-          
-         for (var a=0; a < questions[a].choices.length; a++) {
-            var currentAnswer = questions[a].choices[a];
-            console.log(currentAnswer);
-         } */
-         
-     //}
-});
-
-
-
-function questionsControl() {
-
     var questionsCounter = 0;
 
+    questionsControl(questionsCounter);
+
+});
+
+function questionsControl(q) {
+
     var questionHeader = document.getElementById("questionTitle");
-    questionHeader.innerText = questions[0].title;
-    var currentQuestion = questions[0];
+    questionHeader.innerText = questions[q].title;
+    var currentQuestion = questions[q];
     var qNumber = document.getElementById("qNumber");
-    qNumber.innerText = "Question 1";
+    qNumber.innerText = "Question "+(q+1);
 
     // the following loop displays the current question and answer list
-    for (var i=0; i < questions[0].choices.length; i++) {
+    for (var i=0; i < questions[q].choices.length; i++) {
         var listItem = document.createElement('li');
         var answer = currentQuestion.choices[i];
         listItem.innerText = answer;
@@ -92,7 +74,7 @@ function questionsControl() {
         document.getElementById("answers").appendChild(listItem);
     };
 
-    //trying to set up the click event
+    //trying to set up the click event - TESTING THIS CURRENTLY
     var clicked = document.getElementById('0');
 
     clicked.addEventListener("click", function(event) {
