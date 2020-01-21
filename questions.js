@@ -48,6 +48,9 @@ startBtn.addEventListener("click", function(){
     questionBox.classList.remove("d-none");
     questionBox.setAttribute("index", "0");
 
+    var header = document.getElementById("quiz-header");
+    header.classList.remove("d-none");
+
     questionsControl();
 
     /* for (var i=0; i<4; i++) {
@@ -85,8 +88,18 @@ function questionsControl() {
         var listItem = document.createElement('li');
         var answer = currentQuestion.choices[i];
         listItem.innerText = answer;
+        listItem.setAttribute("id",i);
         document.getElementById("answers").appendChild(listItem);
     };
+
+    //trying to set up the click event
+    var clicked = document.getElementById('0');
+
+    clicked.addEventListener("click", function(event) {
+        if(clicked) {
+            alert("hello");
+        }
+    });
 
 };
 
