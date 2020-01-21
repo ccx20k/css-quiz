@@ -16,12 +16,9 @@
 
     <div class="container">
 
-      <div id="quiz-header">
-        <p id="timer">Timer: 00.00</p>
-        <button id="highscores" type="button" class="btn btn-outline-danger">Highscores</button>
-      </div>
+      
 
-      <div class="jumbotron bg-dark text-light">
+      <div class="jumbotron bg-dark text-light" id="jumbotron">
           <h1 class="display-4">Test your knowledge of CSS</h1>
           <p class="lead">Cascading Style Sheets are the beautifiers of the world wide web. Take this quiz to discover how much you know about this essential language.</p>
           <hr class="my-4">
@@ -29,13 +26,23 @@
           <a class="btn btn-primary btn-lg" href="#" role="button" id="startQuiz">Start Quiz</a>
       </div>
 
-      <div id="questionsBox">
+      <div id="questionsBox" class="d-none">
+
+        <div id="quiz-header" class="bg-light p-2">
+          <div class="row">
+            <div class="col-6">
+              <p id="timer">Timer: 00.00</p>
+            </div>
+            <div class="col-6">
+              <button id="highscores" type="button" class="btn btn-outline-danger">Highscores</button>
+            </div>
+          </div>
+        </div>
+
+        <h4 id="qNumber" class="text-uppercase pt-2"></h4>
           <h2 id="questionTitle">Test Question</h2>
-          <ol>
-            <li id="0">hjdfjkgkllgf</li>
-            <li id="1">ueuriotopdod</li>
-            <li id="2">jfgklfghl;glf;,</li>
-            <li id="3">uytiyopobms,lslsld</li>
+          <ol id="answers">
+            <!--list items go here-->
           </ol>
       </div>
 

@@ -1,4 +1,4 @@
-//var score = 0;
+/* //var score = 0;
 //var timer = 0;
 var startBtn = document.getElementById("startQuiz");
 console.log(startBtn);
@@ -14,3 +14,4 @@ startBtn.addEventListener("click", function(){
     alert("hello");
 });
 
+ */
