@@ -21,7 +21,7 @@ var questions = [
     },
     {
         title: "How to you select an element with id 'main'?",
-        choices: ["main",".main","*main","#main"],
+        choices: ["main","#main","*main",".main"],
         answer: "#main"
     }
 ];
