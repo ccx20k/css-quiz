@@ -1,0 +1,18 @@
+ol {
+    padding-inline-start: 0;
+}
+
+#questionsBox li {
+    background-color: rgb(15, 122, 126);
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+    list-style-position: inside;
+    margin-bottom: 5px;
+  }
+  
+  #questionsBox li:hover {
+    background-color: #9de5df;
+    color: rgb(15, 122, 126);
+    font-weight: bold;
+  }
