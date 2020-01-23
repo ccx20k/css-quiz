@@ -10,6 +10,9 @@ var highScores = [
 var questionBox = document.getElementById("questionsBox");
 var correctAnswerAlert = document.querySelector(".alert-success");
 var wrongAnswerAlert = document.querySelector(".alert-danger");
+var quizRunTime = 30;
+var numberOfQuestions = questions.length;
+var timerInterval;
 
 // EVENT LISTENERS
 startBtn.addEventListener("click", function(){
@@ -24,47 +27,50 @@ startBtn.addEventListener("click", function(){
     var questionsCounter = 0; // Initializes the counter to get the first question in the array
     generateQuestion(questionsCounter); // displays the first question
 
-    var timer = quizTimer(); //  initializes the countdown
-    console.log(typeof timer);
-
+    quizTimer(quizRunTime); //  initializes the countdown
+    
 });
 
 var clicked = document.getElementById('answers');
 clicked.addEventListener("click", function(event) {
 
     var CurrentIndex = document.getElementById("questionsBox").getAttribute("index");
-    var numberOfQuestions = questions.length;
     var selectedAnswer = event.target.innerText;
     var correctAnswer = questions[CurrentIndex].answer;
+    //console.log(event.target.clicked); 
     
     if(selectedAnswer == correctAnswer) { 
         score +=100;
         console.log(score);
         CurrentIndex++;
-        
+        correctAnswerAlert.classList.remove("d-none");
         if (CurrentIndex < numberOfQuestions) {
-            correctAnswerAlert.classList.remove("d-none");
             setTimeout(function() { 
                 correctAnswerAlert.classList.add("d-none");
                 generateQuestion(CurrentIndex);
             }, 500);
-            //generateQuestion(CurrentIndex);
-        }
-    
-    } else {
-        if (CurrentIndex == numberOfQuestions-1) {
-            endQuiz();
         } else {
-            wrongAnswerAlert.classList.remove("d-none");
-            score -=10;
-            console.log(score);
-            CurrentIndex++;
+            setTimeout(function() { 
+                correctAnswerAlert.classList.add("d-none");
+                endQuiz(timerInterval);
+            }, 500);
+        }
+    } else {
+        wrongAnswerAlert.classList.remove("d-none");
+        score -=10;
+        CurrentIndex++;
+        if (CurrentIndex < numberOfQuestions) {
             setTimeout(function() { 
                 wrongAnswerAlert.classList.add("d-none");
                 generateQuestion(CurrentIndex);
             }, 500);
-            //generateQuestion(CurrentIndex);
-        } 
+        } else {
+            setTimeout(function() { 
+                wrongAnswerAlert.classList.add("d-none");
+                endQuiz(timerInterval);
+            }, 500);
+            
+        }
     }
 });
 
@@ -96,28 +102,28 @@ function generateQuestion(q) {
 
 };
  
-function quizTimer() {
+function quizTimer(r) {
 
-    var quizRunTime = 90;
     var timerDisplay = document.getElementById("timer");
-
+    //var CurrentIndex = document.getElementById("questionsBox").getAttribute("index");
     var timerInterval = setInterval(function(){
-        quizRunTime--;
-        timerDisplay.textContent = quizRunTime;
-
-        if(quizRunTime === 0) {
-            clearInterval(timerInterval);
-            endQuiz();
+        r--;
+        timerDisplay.textContent = r;
+        var CurrentIndex = document.getElementById("questionsBox").getAttribute("index");
+        console.log(CurrentIndex);
+        if(r === 0 || CurrentIndex == numberOfQuestions-1) { // add something here to allow the user to pick the final answer
+            //clearInterval(timerInterval);
+            endQuiz(timerInterval);
           } 
-      
-    }, 1000);
-
-     return timerInterval;
+        }, 1000);
 };
 
-function endQuiz() {
+function endQuiz(t) {
     var endingDiv = document.getElementById("endOfQuiz");
     var questionBox = document.getElementById("questionsBox");
     questionBox.classList.add("d-none");
     endingDiv.classList.remove("d-none"); 
+    var finalScore = document.getElementById("finalScore");
+    finalScore.innerText = score;
+    clearInterval(t);
 }
