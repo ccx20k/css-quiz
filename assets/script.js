@@ -2,10 +2,10 @@
 var score = 0;
 var startBtn = document.getElementById("startQuiz");
 var highScores = [
-    {
-        initials: "",
-        finalScore: 0
-    }
+  {
+    initials: "",
+    finalScore: 0
+  }
 ];
 var questionBox = document.getElementById("questionsBox");
 var correctAnswerAlert = document.querySelector(".alert-success");
@@ -15,115 +15,113 @@ var numberOfQuestions = questions.length;
 var timerInterval;
 
 // EVENT LISTENERS
-startBtn.addEventListener("click", function(){
+startBtn.addEventListener("click", function() {
+  var jumbotron = document.getElementById("jumbotron");
+  jumbotron.classList.add("d-none"); // hides the jumbotron
 
-    var jumbotron = document.getElementById("jumbotron");
-    jumbotron.classList.add("d-none"); // hides the jumbotron
+  var header = document.getElementById("quiz-header");
+  header.classList.remove("d-none"); // shows the timer and high scores
+  questionBox.classList.remove("d-none"); // shows the div containing the question
 
-    var header = document.getElementById("quiz-header");
-    header.classList.remove("d-none"); // shows the timer and high scores
-    questionBox.classList.remove("d-none"); // shows the div containing the question
-    
-    var questionsCounter = 0; // Initializes the counter to get the first question in the array
-    generateQuestion(questionsCounter); // displays the first question
+  var questionsCounter = 0; // Initializes the counter to get the first question in the array
+  generateQuestion(questionsCounter); // displays the first question
 
-    quizTimer(quizRunTime); //  initializes the countdown
-    
+  quizTimer(quizRunTime); //  initializes the countdown
 });
 
-var clicked = document.getElementById('answers');
+var clicked = document.getElementById("answers");
 clicked.addEventListener("click", function(event) {
+  var CurrentIndex = document
+    .getElementById("questionsBox")
+    .getAttribute("index");
+  var selectedAnswer = event.target.innerText;
+  var correctAnswer = questions[CurrentIndex].answer;
+  //console.log(event.target.clicked);
 
-    var CurrentIndex = document.getElementById("questionsBox").getAttribute("index");
-    var selectedAnswer = event.target.innerText;
-    var correctAnswer = questions[CurrentIndex].answer;
-    //console.log(event.target.clicked); 
-    
-    if(selectedAnswer == correctAnswer) { 
-        score +=100;
-        console.log(score);
-        CurrentIndex++;
-        correctAnswerAlert.classList.remove("d-none");
-        if (CurrentIndex < numberOfQuestions) {
-            setTimeout(function() { 
-                correctAnswerAlert.classList.add("d-none");
-                generateQuestion(CurrentIndex);
-            }, 500);
-        } else {
-            setTimeout(function() { 
-                correctAnswerAlert.classList.add("d-none");
-                endQuiz(timerInterval);
-            }, 500);
-        }
+  if (selectedAnswer == correctAnswer) {
+    score += 100;
+    console.log(score);
+    CurrentIndex++;
+    correctAnswerAlert.classList.remove("d-none");
+    if (CurrentIndex < numberOfQuestions) {
+      setTimeout(function() {
+        correctAnswerAlert.classList.add("d-none");
+        generateQuestion(CurrentIndex);
+      }, 500);
     } else {
-        wrongAnswerAlert.classList.remove("d-none");
-        score -=10;
-        CurrentIndex++;
-        if (CurrentIndex < numberOfQuestions) {
-            setTimeout(function() { 
-                wrongAnswerAlert.classList.add("d-none");
-                generateQuestion(CurrentIndex);
-            }, 500);
-        } else {
-            setTimeout(function() { 
-                wrongAnswerAlert.classList.add("d-none");
-                endQuiz(timerInterval);
-            }, 500);
-            
-        }
+      setTimeout(function() {
+        correctAnswerAlert.classList.add("d-none");
+        endQuiz(timerInterval);
+      }, 500);
     }
+  } else {
+    wrongAnswerAlert.classList.remove("d-none");
+    score -= 10;
+    CurrentIndex++;
+    if (CurrentIndex < numberOfQuestions) {
+      setTimeout(function() {
+        wrongAnswerAlert.classList.add("d-none");
+        generateQuestion(CurrentIndex);
+      }, 500);
+    } else {
+      setTimeout(function() {
+        wrongAnswerAlert.classList.add("d-none");
+        endQuiz(timerInterval);
+      }, 500);
+    }
+  }
 });
 
 // FUNCTIONS
 function generateQuestion(q) {
+  questionBox.setAttribute("index", q);
 
-    questionBox.setAttribute("index", q);
+  var questionHeader = document.getElementById("questionTitle");
+  questionHeader.innerText = questions[q].title;
+  var currentQuestion = questions[q];
+  var qNumber = document.getElementById("qNumber");
+  qNumber.innerText = "Question " + (q + 1);
 
-    var questionHeader = document.getElementById("questionTitle");
-    questionHeader.innerText = questions[q].title;
-    var currentQuestion = questions[q];
-    var qNumber = document.getElementById("qNumber");
-    qNumber.innerText = "Question "+(q+1);
+  // removes previusly appended li items
+  var answers = document.getElementById("answers");
+  while (answers.hasChildNodes()) {
+    answers.removeChild(answers.firstChild);
+  }
 
-    // removes previusly appended li items
-    var answers = document.getElementById("answers");
-    while (answers.hasChildNodes()) {  
-        answers.removeChild(answers.firstChild);
-      }
+  // the following loop displays the current question and answer list
+  for (var i = 0; i < questions[q].choices.length; i++) {
+    var listItem = document.createElement("li");
+    var answer = currentQuestion.choices[i];
+    listItem.innerText = answer;
+    listItem.setAttribute("id", i);
+    document.getElementById("answers").appendChild(listItem);
+  }
+}
 
-    // the following loop displays the current question and answer list
-    for (var i=0; i < questions[q].choices.length; i++) {
-        var listItem = document.createElement('li');
-        var answer = currentQuestion.choices[i];
-        listItem.innerText = answer;
-        listItem.setAttribute("id",i);
-        document.getElementById("answers").appendChild(listItem);
-    };
-
-};
- 
 function quizTimer(r) {
-
-    var timerDisplay = document.getElementById("timer");
-    //var CurrentIndex = document.getElementById("questionsBox").getAttribute("index");
-    var timerInterval = setInterval(function(){
-        r--;
-        timerDisplay.textContent = r;
-        var CurrentIndex = document.getElementById("questionsBox").getAttribute("index");
-        console.log(CurrentIndex);
-        if(r === 0 || CurrentIndex == numberOfQuestions-1) { // add something here to allow the user to pick the final answer
-            //clearInterval(timerInterval);
-            endQuiz(timerInterval);
-          } 
-        }, 1000);
-};
+  var timerDisplay = document.getElementById("timer");
+  //var CurrentIndex = document.getElementById("questionsBox").getAttribute("index");
+  var timerInterval = setInterval(function() {
+    r--;
+    timerDisplay.textContent = r;
+    var CurrentIndex = document
+      .getElementById("questionsBox")
+      .getAttribute("index");
+    console.log(CurrentIndex);
+    if (r === 0 || CurrentIndex == numberOfQuestions) {
+      // add something here to allow the user to pick the final answer
+      //clearInterval(timerInterval);
+      endQuiz(timerInterval);
+    }
+  }, 1000);
+}
 
 function endQuiz(t) {
-    var endingDiv = document.getElementById("endOfQuiz");
-    var questionBox = document.getElementById("questionsBox");
-    questionBox.classList.add("d-none");
-    endingDiv.classList.remove("d-none"); 
-    var finalScore = document.getElementById("finalScore");
-    finalScore.innerText = score;
-    clearInterval(t);
+  var endingDiv = document.getElementById("endOfQuiz");
+  var questionBox = document.getElementById("questionsBox");
+  questionBox.classList.add("d-none");
+  endingDiv.classList.remove("d-none");
+  var finalScore = document.getElementById("finalScore");
+  finalScore.innerText = score;
+  clearInterval(t);
 }
