@@ -13,6 +13,8 @@ var questionBox = document.getElementById("questionsBox");
 
 startBtn.addEventListener("click", function(){
 
+    setQuizTimer(); //  initializes the countdown
+
     var jumbotron = document.getElementById("jumbotron");
     jumbotron.classList.add("d-none"); // hides the jumbotron
 
@@ -38,7 +40,9 @@ clicked.addEventListener("click", function(event) {
     if(selectedAnswer == correctAnswer) {
 
         // TO DO - place an if statement here to check if the user is in the last question 
+        score +=100;
         CurrentIndex++;
+        console.log(score);
         generateQuestion(CurrentIndex);
         //alert("display next question");
     } else {
@@ -71,4 +75,21 @@ function generateQuestion(q) {
         document.getElementById("answers").appendChild(listItem);
     };
 
-}
+};
+ 
+function setQuizTimer(){
+
+    var quizRunTime = 90;
+    var timerDisplay = document.getElementById("timer");
+
+    var timerInterval = setInterval(function(){
+        quizRunTime--;
+        timerDisplay.textContent = quizRunTime;
+
+        if(quizRunTime === 0) {
+            clearInterval(timerInterval);
+            alert("Time ran out!");
+          }
+      
+    }, 1000);
+};

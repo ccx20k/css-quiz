@@ -23,6 +23,11 @@ var questions = [
         title: "How to you select an element with id 'main'?",
         choices: ["main","#main","*main",".main"],
         answer: "#main"
+    },
+    {
+        title: "Which property does not allow negative values?",
+        choices: ["margin","padding","background-position","z-index"],
+        answer: "padding"
     }
 ];
 
