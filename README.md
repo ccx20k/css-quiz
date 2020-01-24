@@ -21,7 +21,7 @@ The application uses *Bootstrap 4,* javascript, and a few lines of custom css.
 3. The application will wait until an answer is clicked before displaying the next question. The user will see a green message if the answer is correct, and a red message if the answer is wrong. 
 4. The timer will stop running when the user has anwered all the questions, or if the timer reaches 0 (zero) seconds.
 5. The user will get bonus points if they answer all the questions before time runs out.
-6. After the quiz is completed, the user can see their final score, and they have the options to add their score and initials to the leaderboard.
+6. After the quiz is completed, the user can see their final score, and they have the option to add their score and initials to the leaderboard.
 
 ## User interface
 
