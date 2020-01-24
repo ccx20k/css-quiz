@@ -134,7 +134,7 @@ function endQuiz(t) {
   
   clearInterval(t);
   setFinalScore();
-
+  //leaderBoard(totalPoints);
 };
 
 // CALCULATE FINAL SCORE 
@@ -157,5 +157,14 @@ function setFinalScore() {
     };
     
     finalScore.innerText = score;
+    return score;
+};
 
+function leaderBoard() {
+    
+    var playerInitials = document.getElementById("playerInitials").value.toUpperCase();
+    var totalPoints = finalScore.innerText;
+
+    console.log(totalPoints);
+    console.log(playerInitials);
 };

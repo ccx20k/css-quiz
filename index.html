@@ -43,7 +43,7 @@
 
     <div class="container">
       <!-- Welcome message -->
-      <div class="jumbotron bg-dark text-light" id="jumbotron">
+      <div class="jumbotron bg-dark text-light mt-4" id="jumbotron">
         <h1 class="display-4">Test your knowledge of CSS</h1>
         <p class="lead">
           Cascading Style Sheets are the beautifiers of the world wide web. Take
@@ -60,7 +60,7 @@
       </div>
 
       <!-- Questions section -->
-      <div id="questionsBox" class="d-none">
+      <div id="questionsBox" class="d-none mt-4">
         <h4 id="qNumber" class="text-uppercase pt-2">Question Number</h4>
         <h2 id="questionTitle">Question Text</h2>
         <ol id="answers">
@@ -76,10 +76,21 @@
       </div>
 
       <!-- End of quiz message -->
-      <div class="alert alert-primary d-none" role="alert" id="endOfQuiz">
-        <h2>Thank you for playing!</h2>
-        <p>Your final score is: <span id="finalScore">0</span></p>
+      <div id="endOfQuiz" class="d-none mt-4">
+        <div class="alert alert-primary" role="alert" >
+          <h2>Thank you for playing!</h2>
+          <p>Your final score is: <span id="finalScore">0</span></p>
+        </div>
+        <div id="scoreBoard">
+          <h4>To add you score to the leaderboard, please enter your initials:</h4>
+          <div class="form-inline">
+              <label for="playerInitials" class="ml-2">Initials: </label>
+              <input type="text" class="form-control ml-2" id="playerInitials" placeholder="ABC" maxlength="3">
+              <button type="button" class="btn btn-outline-primary ml-2" id="submitInitials" onclick="leaderBoard()">Submit</button>
+          </div>
+        </div>
       </div>
+      
     </div>
 
     <!-- Optional JavaScript -->
