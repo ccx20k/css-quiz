@@ -78,17 +78,31 @@
       <!-- End of quiz message -->
       <div id="endOfQuiz" class="d-none mt-4">
         <div class="alert alert-primary" role="alert" >
-          <h2>Thank you for playing!</h2>
-          <p>Your final score is: <span id="finalScore">0</span></p>
+          <p>Thank you for playing!</p>
+          <h2>Your final score is: <span id="finalScore">0</span></h2>
         </div>
         <div id="scoreBoard">
           <h4>To add you score to the leaderboard, please enter your initials:</h4>
           <div class="form-inline">
               <label for="playerInitials" class="ml-2">Initials: </label>
               <input type="text" class="form-control ml-2" id="playerInitials" placeholder="ABC" maxlength="3">
-              <button type="button" class="btn btn-outline-primary ml-2" id="submitInitials" onclick="leaderBoard()">Submit</button>
+              <button type="button" class="btn btn-outline-primary ml-2" id="submitInitials">Submit</button>
           </div>
         </div>
+        <table class="table table-striped mt-4">
+          <thead>
+            <tr>
+              <th scope="col">INITIALS</th>
+              <th scope="col">SCORE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="storedInitials">AAA</td>
+              <td id="storedScore">000</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       
     </div>
