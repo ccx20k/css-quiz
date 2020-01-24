@@ -10,12 +10,17 @@ var highScores = [
 var questionBox = document.getElementById("questionsBox");
 var correctAnswerAlert = document.querySelector(".alert-success");
 var wrongAnswerAlert = document.querySelector(".alert-danger");
-var quizRunTime = 30;
+var quizRunTime = 90;
 var numberOfQuestions = questions.length;
 var timerInterval;
+var clicked = document.getElementById("answers");
+var isClicked = "";
+var timerDisplay = document.getElementById("timer");
+var finalScore = document.getElementById("finalScore");
 
-// EVENT LISTENERS
+// START BUTTON EVENT LISTENER
 startBtn.addEventListener("click", function() {
+
   var jumbotron = document.getElementById("jumbotron");
   jumbotron.classList.add("d-none"); // hides the jumbotron
 
@@ -27,24 +32,23 @@ startBtn.addEventListener("click", function() {
   generateQuestion(questionsCounter); // displays the first question
 
   quizTimer(quizRunTime); //  initializes the countdown
+
 });
 
-var clicked = document.getElementById("answers");
+// ANSWER CLICKED EVENT LISTENER
 clicked.addEventListener("click", function(event) {
-  var CurrentIndex = document
-    .getElementById("questionsBox")
-    .getAttribute("index");
+
+  var CurrentIndex = document.getElementById("questionsBox").getAttribute("index");
   var selectedAnswer = event.target.innerText;
   var correctAnswer = questions[CurrentIndex].answer;
-
-  var isClicked = event.returnValue;// testing
-  console.log(isClicked);// testing
+  isClicked = "true";
 
   if (selectedAnswer == correctAnswer) {
     score += 100;
     console.log(score);
     CurrentIndex++;
     correctAnswerAlert.classList.remove("d-none");
+
     if (CurrentIndex < numberOfQuestions) {
       setTimeout(function() {
         correctAnswerAlert.classList.add("d-none");
@@ -53,12 +57,13 @@ clicked.addEventListener("click", function(event) {
     } else {
       setTimeout(function() {
         correctAnswerAlert.classList.add("d-none");
-        endQuiz(timerInterval); // testing
+        endQuiz(timerInterval); 
       }, 500);
     }
   } else {
+    console.log(score);
     wrongAnswerAlert.classList.remove("d-none");
-    score -= 10;
+    score -= 10; // this deducts points from total score if the answer is wrong
     CurrentIndex++;
     if (CurrentIndex < numberOfQuestions) {
       setTimeout(function() {
@@ -68,80 +73,89 @@ clicked.addEventListener("click", function(event) {
     } else {
       setTimeout(function() {
         wrongAnswerAlert.classList.add("d-none");
-        endQuiz(timerInterval); // testing
+        endQuiz(timerInterval); 
       }, 500);
     }
   }
 });
 
-// FUNCTIONS
+// POPULATE QUESTIONS
 function generateQuestion(q) {
-  questionBox.setAttribute("index", q);
 
-  var questionHeader = document.getElementById("questionTitle");
-  questionHeader.innerText = questions[q].title;
-  var currentQuestion = questions[q];
-  var qNumber = document.getElementById("qNumber");
-  qNumber.innerText = "Question " + (q + 1);
+    isClicked = "false";
+    questionBox.setAttribute("index", q);
+    var questionHeader = document.getElementById("questionTitle");
+    questionHeader.innerText = questions[q].title;
+    var currentQuestion = questions[q];
+    var qNumber = document.getElementById("qNumber");
+    qNumber.innerText = "Question " + (q + 1);
 
-  // removes previusly appended li items
-  var answers = document.getElementById("answers");
-  while (answers.hasChildNodes()) {
-    answers.removeChild(answers.firstChild);
-  }
+    // removes previusly appended li items
+    var answers = document.getElementById("answers");
+    while (answers.hasChildNodes()) {
+        answers.removeChild(answers.firstChild);
+    }
 
-  // the following loop displays the current question and answer list
-  for (var i = 0; i < questions[q].choices.length; i++) {
-    var listItem = document.createElement("li");
-    var answer = currentQuestion.choices[i];
-    listItem.innerText = answer;
-    listItem.setAttribute("id", i);
-    document.getElementById("answers").appendChild(listItem);
-  }
-}
+    // the following loop displays the current question and answer list
+    for (var i = 0; i < questions[q].choices.length; i++) {
+        var listItem = document.createElement("li");
+        var answer = currentQuestion.choices[i];
+        listItem.innerText = answer;
+        listItem.setAttribute("id", i);
+        document.getElementById("answers").appendChild(listItem);
+    }
+};
 
-function quizTimer(r) {// testing
-  /* var clickedObject = document.getElementById("answers");
-  var Clicked = clickedObject.addEventListener("click", function(){
-    var captureClick = event.returnValue;
-    captureClick.toString();
-    return captureClick;
-  });
-  console.log(Clicked); */
-  var timerDisplay = document.getElementById("timer");
-  //var CurrentIndex = document.getElementById("questionsBox").getAttribute("index");
+// TIMER FUNCTION
+function quizTimer(r) {
+  
   var timerInterval = setInterval(function() {
     r--;
     timerDisplay.textContent = r;
     var CurrentIndex = document
       .getElementById("questionsBox")
       .getAttribute("index");
-    console.log(CurrentIndex);
-    var clickedObject = document.getElementById("answers");
-  var Clicked = clickedObject.addEventListener("click", function(){
-    var captureClick = event.returnValue;
-    captureClick.toString();
-    return captureClick;
-  });
-  console.log(Clicked);
-    //console.log("this is c "+c);
-    if (CurrentIndex == numberOfQuestions-1) { // testing
-      endQuiz(timerInterval);
+    if (CurrentIndex == numberOfQuestions-1 && isClicked == "true") { 
+        clearInterval(timerInterval);
     };
     if (r === 0) {
-      // add something here to allow the user to pick the final answer
-      //clearInterval(timerInterval);
       endQuiz(timerInterval);
     }
   }, 1000);
-}
+};
 
+// DISPLAY FINAL SCREEN 
 function endQuiz(t) {
+
   var endingDiv = document.getElementById("endOfQuiz");
   var questionBox = document.getElementById("questionsBox");
   questionBox.classList.add("d-none");
   endingDiv.classList.remove("d-none");
-  var finalScore = document.getElementById("finalScore");
-  finalScore.innerText = score;
+  
   clearInterval(t);
-}
+  setFinalScore();
+
+};
+
+// CALCULATE FINAL SCORE 
+function setFinalScore() {
+
+    var secondsRemaining = timerDisplay.textContent;
+    
+    if (score < 0) { // user gets bonus points based on how fast the quiz was answered, and if at least one choice was right
+        score = 0;
+    } else {
+        if (secondsRemaining > 60) {
+            score += 50;
+        } else if (secondsRemaining > 40) {
+            score += 30;
+        } else if (secondsRemaining > 20) {
+            score += 10;
+        } else {
+            score += 5;
+        }
+    };
+    
+    finalScore.innerText = score;
+
+};
