@@ -36,7 +36,9 @@ clicked.addEventListener("click", function(event) {
     .getAttribute("index");
   var selectedAnswer = event.target.innerText;
   var correctAnswer = questions[CurrentIndex].answer;
-  //console.log(event.target.clicked);
+
+  var isClicked = event.returnValue;// testing
+  console.log(isClicked);// testing
 
   if (selectedAnswer == correctAnswer) {
     score += 100;
@@ -51,7 +53,7 @@ clicked.addEventListener("click", function(event) {
     } else {
       setTimeout(function() {
         correctAnswerAlert.classList.add("d-none");
-        endQuiz(timerInterval);
+        endQuiz(timerInterval); // testing
       }, 500);
     }
   } else {
@@ -66,7 +68,7 @@ clicked.addEventListener("click", function(event) {
     } else {
       setTimeout(function() {
         wrongAnswerAlert.classList.add("d-none");
-        endQuiz(timerInterval);
+        endQuiz(timerInterval); // testing
       }, 500);
     }
   }
@@ -98,7 +100,14 @@ function generateQuestion(q) {
   }
 }
 
-function quizTimer(r) {
+function quizTimer(r) {// testing
+  /* var clickedObject = document.getElementById("answers");
+  var Clicked = clickedObject.addEventListener("click", function(){
+    var captureClick = event.returnValue;
+    captureClick.toString();
+    return captureClick;
+  });
+  console.log(Clicked); */
   var timerDisplay = document.getElementById("timer");
   //var CurrentIndex = document.getElementById("questionsBox").getAttribute("index");
   var timerInterval = setInterval(function() {
@@ -108,7 +117,18 @@ function quizTimer(r) {
       .getElementById("questionsBox")
       .getAttribute("index");
     console.log(CurrentIndex);
-    if (r === 0 || CurrentIndex == numberOfQuestions) {
+    var clickedObject = document.getElementById("answers");
+  var Clicked = clickedObject.addEventListener("click", function(){
+    var captureClick = event.returnValue;
+    captureClick.toString();
+    return captureClick;
+  });
+  console.log(Clicked);
+    //console.log("this is c "+c);
+    if (CurrentIndex == numberOfQuestions-1) { // testing
+      endQuiz(timerInterval);
+    };
+    if (r === 0) {
       // add something here to allow the user to pick the final answer
       //clearInterval(timerInterval);
       endQuiz(timerInterval);
